@@ -32,6 +32,7 @@ public abstract class LDAPBaseSecurityServiceConfig extends BaseSecurityNamedSer
     String allUsersSearchFilter;
 
     Boolean useTLS;
+    Boolean tlsHostnameVerificationDisabled = false;
 
     /** Activates hierarchical nested parent groups search */
     private boolean useNestedParentGroups = false;
@@ -69,6 +70,7 @@ public abstract class LDAPBaseSecurityServiceConfig extends BaseSecurityNamedSer
         bindBeforeGroupSearch = other.isBindBeforeGroupSearch();
         userFilter = other.getUserFilter();
         useTLS = other.isUseTLS();
+        tlsHostnameVerificationDisabled = other.getTlsHostnameVerificationDisabled();
         user = other.getUser();
         password = other.getPassword();
     }
@@ -103,6 +105,14 @@ public abstract class LDAPBaseSecurityServiceConfig extends BaseSecurityNamedSer
 
     public Boolean isUseTLS() {
         return useTLS;
+    }
+
+    public Boolean getTlsHostnameVerificationDisabled() {
+        return tlsHostnameVerificationDisabled;
+    }
+
+    public void setTlsHostnameVerificationDisabled(Boolean tlsHostnameVerificationDisabled) {
+        this.tlsHostnameVerificationDisabled = tlsHostnameVerificationDisabled;
     }
 
     public Boolean isBindBeforeGroupSearch() {

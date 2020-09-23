@@ -189,6 +189,9 @@ public class SecurityHomePageContentProvider implements GeoServerHomePageContent
                             new StringResourceModel("digestEncoding", (Component) this, null));
             add(label);
             label.setVisible(visibility);
+
+            // TODO find a way to fetch the security warning from the LDAP auth provider and its configuration
+            // manager.fetchSecurityIssues() ??
         }
     }
 }

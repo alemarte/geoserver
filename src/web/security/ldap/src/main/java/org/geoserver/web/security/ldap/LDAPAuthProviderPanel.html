@@ -15,11 +15,21 @@
               <label for="serverURL"><wicket:message key="serverURL"></wicket:message></label>
               <input id="serverURL" wicket:id="serverURL" type="text" class="text"></input>
             </li>
-            
+
             <li class="choiceItem">
               <input id="useTLS" wicket:id="useTLS" type="checkbox"></input>
               <label for="useTLS"><wicket:message key="useTLS"></wicket:message></label>
             </li>
+
+            <li class="choiceItem">
+              <div wicket:id="useTLSContainer">
+                <input id="tlsHostnameVerificationDisabled"
+                       wicket:id="tlsHostnameVerificationDisabled" type="checkbox"></input>
+                <label for="tlsHostnameVerificationDisabled"><wicket:message
+                        key="tlsHostnameVerificationDisabled"></wicket:message></label>
+              </div>
+            </li>
+              <!-- TODO tls -->
             <li>
               <label for="userDnPattern"><wicket:message key="userDnPattern"></wicket:message></label>
               <input id="userDnPattern" wicket:id="userDnPattern" type="text" class="text"></input>

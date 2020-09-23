@@ -37,17 +37,18 @@ public class LDAPUtils {
             // TLS does not play nicely with pooled connections
             ldapContext.setPooled(false);
 
-            DefaultTlsDirContextAuthenticationStrategy tls =
-                    new DefaultTlsDirContextAuthenticationStrategy();
-            tls.setHostnameVerifier(
-                    new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            return true;
-                        }
-                    });
-
-            ldapContext.setAuthenticationStrategy(tls);
+            if (ldapConfig.getTlsHostnameVerificationDisabled()) {
+                DefaultTlsDirContextAuthenticationStrategy tls =
+                        new DefaultTlsDirContextAuthenticationStrategy();
+                tls.setHostnameVerifier(
+                        new HostnameVerifier() {
+                            @Override
+                            public boolean verify(String hostname, SSLSession session) {
+                                return true;
+                            }
+                        });
+                ldapContext.setAuthenticationStrategy(tls);
+            }
         }
         return ldapContext;
     }

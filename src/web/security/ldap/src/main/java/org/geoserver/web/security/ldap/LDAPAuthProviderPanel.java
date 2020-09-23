@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.naming.AuthenticationException;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -45,7 +46,31 @@ public class LDAPAuthProviderPanel extends AuthenticationProviderPanel<LDAPSecur
         super(id, model);
 
         add(new TextField<String>("serverURL").setRequired(true));
-        add(new CheckBox("useTLS"));
+
+        CheckBox tlsHostnameVerificationDisabled = new CheckBox("tlsHostnameVerificationDisabled");
+        tlsHostnameVerificationDisabled.setOutputMarkupPlaceholderTag(true);
+
+        CheckBox useTls = new CheckBox("useTLS");
+        WebMarkupContainer useTLSContainer = new WebMarkupContainer("useTLSContainer");
+        useTLSContainer.add(tlsHostnameVerificationDisabled);
+        useTLSContainer.setVisible(model.getObject().isUseTLS());
+        useTLSContainer.setOutputMarkupPlaceholderTag(true);
+
+        useTls.add(
+                new OnChangeAjaxBehavior() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    protected void onUpdate(AjaxRequestTarget target) {
+                        boolean checked = model.getObject().isUseTLS();
+                        useTLSContainer.setVisible(checked);
+                        target.add(useTLSContainer);
+                    }
+                });
+
+        add(useTls);
+        add(useTLSContainer);
+
         add(new TextField<String>("userDnPattern"));
         add(new TextField<String>("userFilter"));
         add(new TextField<String>("userFormat"));
@@ -236,6 +261,10 @@ public class LDAPAuthProviderPanel extends AuthenticationProviderPanel<LDAPSecur
                             ((FormComponent<?>) LDAPAuthProviderPanel.this.get("serverURL"))
                                     .processInput();
                             ((FormComponent<?>) LDAPAuthProviderPanel.this.get("useTLS"))
+                                    .processInput();
+                            ((FormComponent<?>)
+                                            LDAPAuthProviderPanel.this.get(
+                                                    "tlsHostnameVerificationDisabled"))
                                     .processInput();
 
                             ((FormComponent<?>) LDAPAuthProviderPanel.this.get("userDnPattern"))
